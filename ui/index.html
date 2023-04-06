@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>RPX Multicharacter</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+    <body>
+        <div class="menu" id="multicharmenu">
+            <div class="head">Character Info</div>
+            <div class="topline"></div>
+            <div class="content">
+                <span class="label">Basic Info</span><br/>
+                <input type="text" id="firstname" placeholder="First Name">
+                <input type="text" id="lastname" placeholder="Last Name">
+                <input type="number" id="age" placeholder="Age (18-80)">
+                <select name="gender" id="gender">
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+                <input type="number" id="height" placeholder="Height (150-190) cm">
+                <button id="button" class="create">Create Character</button>
+            </div>
+        </div>
+
+        <div class="menu" id="confirmmenu">
+            <div class="head">Delete character?</div>
+            <div class="topline"></div>
+            <div class="content">
+                <button id="button2" class="delete">Delete Character</button>
+                <button id="button3">Cancel</button>
+            </div>
+        </div>
+        <div id="toast"></div>
+    </body>
+    <script type="text/javascript" src="script.js"></script>
+</html>
