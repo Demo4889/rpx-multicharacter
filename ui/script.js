@@ -1,4 +1,5 @@
 var ShowingToast = false;
+var ShowingDeleteModal = false;
 
 window.addEventListener("message", (event) => {
     const action = event.data.action;
@@ -7,6 +8,7 @@ window.addEventListener("message", (event) => {
             $("#multicharmenu").show();
             break;
         case "OPEN_CONFIRMDELETE":
+            ShowingDeleteModal = true;
             $("#multicharmenu").hide();
             $("#confirmmenu").show();
             break;
@@ -20,7 +22,7 @@ window.addEventListener("message", (event) => {
 
 // This enables the player to close the NUI with the escape key.
 $(document).keyup(function(e) {
-    if (e.keyCode == 27) {
+    if (e.keyCode == 27 && !ShowingDeleteModal) {
         $("#multicharmenu").hide();
         $.post(`https://${GetParentResourceName()}/CloseNUI`);
     }
@@ -53,12 +55,14 @@ $("#button2").click(function() {
     $("#multicharmenu").hide();
     $("#confirmmenu").hide();
     $.post(`https://${GetParentResourceName()}/CloseConfirm`, JSON.stringify({confirm: true}));
+    ShowingDeleteModal = false;
 });
 
 $("#button3").click(function() {
     $("#multicharmenu").hide();
     $("#confirmmenu").hide();
     $.post(`https://${GetParentResourceName()}/CloseConfirm`, JSON.stringify({confirm: false}));
+    ShowingDeleteModal = false;
 });
 
 $("#firstname").keypress(function (e) {

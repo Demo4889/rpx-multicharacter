@@ -43,7 +43,7 @@ body {
 }
 
 #confirmmenu {
-  height:250px !important;
+  height:fit-content;
 }
 
 .topline {
@@ -168,6 +168,11 @@ button:hover {
   bottom:10%;
   left:50%;
   transform:translateX(-50%);
+}
+
+#button3 {
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #toast {

@@ -19,7 +19,7 @@ end)
 
 RegisterNetEvent("SERVER:RPX:Logout", function()
     local src = source
-    exports['rpx-inventory']:hasDisconnected(src)
+    Player(src).state:set('isLoggedIn', false, true)
     RPX.Player.Logout(src)
 end)
 

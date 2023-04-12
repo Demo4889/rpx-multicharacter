@@ -64,6 +64,11 @@ Camera.StartCameraThread = function()
             DisableControlAction(0, 0xA65EBAB4, true) -- LEFT ARROW
             DisableControlAction(0, 0xDEB34313, true) -- RIGHT ARROW
             DisableControlAction(0, 0xC7B5340A, true) -- ENTER
+            DisableControlAction(0, 0x4A903C11, true) -- ESC / PAUSE
+            DisableControlAction(0, 0x156F7119, true) -- BACKSPACE
+            DisableControlAction(0, 0xD82E0BD2, true) -- P / PAUSE
+
+            HideHudAndRadarThisFrame()
 
             local text = "<- Create Character ->"
             if CharacterData[Camera.SelectedChar] then

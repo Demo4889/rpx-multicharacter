@@ -117,6 +117,7 @@ RegisterCommand("logout", function()
         DoScreenFadeOut(500)
         Wait(500)
         TriggerServerEvent("SERVER:RPX:Logout")
+        TriggerEvent("CLIENT:RPX:Logout")
         RPX.RequestRoutingBucket(math.random(20000) + 10000)
         TriggerServerEvent("SERVER:RPX:LoadCharacters")
         return
@@ -140,6 +141,9 @@ RegisterNetEvent("CLIENT:MultiCharacter:LoadCharacters", function(chardata)
     local PositionsTaken = 0
 
     SetEntityCoords(PlayerPedId(), Config.HidePed.x, Config.HidePed.y, Config.HidePed.z)
+    FreezeEntityPosition(PlayerPedId(), true)
+    SetEntityAlpha(PlayerPedId(), 0.0, true)
+    Citizen.InvokeNative(0x4D51E59243281D80, PlayerId(), false, 0, false)
 
     for i = 1, 4 do
         if CharacterData[i] then
