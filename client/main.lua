@@ -163,8 +163,8 @@ RegisterNetEvent("CLIENT:MultiCharacter:LoadCharacters", function(chardata)
                 Citizen.InvokeNative(0x283978A15512B2FE, ped, true)
                 Citizen.InvokeNative(0x77FF8D35EEC6BBC4, ped, 3, 0)
                 NativeUpdatePedVariation(ped)
-                NativeSetPedComponentEnabled(ped, Components.Male["BODIES_LOWER"][10], false, true, true)
-                NativeSetPedComponentEnabled(ped, Components.Male["BODIES_UPPER"][10], false, true, true)
+                NativeSetPedComponentEnabled(ped, Components.Male["BODIES_LOWER"][10], false, true)
+                NativeSetPedComponentEnabled(ped, Components.Male["BODIES_UPPER"][10], false, true)
                 NativeUpdatePedVariation(ped)
             end
         end

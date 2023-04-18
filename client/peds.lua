@@ -7,7 +7,7 @@ Peds.SpawnPed = function(position)
     while not HasModelLoaded(GetHashKey("mp_male")) do
         Wait(1)    
     end
-    local ped = CreatePed(GetHashKey("mp_male"), coords.x, coords.y, coords.z - 1.0, coords.w, false, true, 0, 0)
+    local ped = CreatePed(GetHashKey("mp_male"), coords.x, coords.y, coords.z - 1.0, coords.w, false, true)
     while not DoesEntityExist(ped) do
         Wait(1)
     end
