@@ -2,14 +2,25 @@ RPX = exports['rpx-core']:GetObject()
 
 CharacterData = {}
 
-AddEventHandler('onResourceStop', function(resName)
-    if resName ~= GetCurrentResourceName() then
-        return
+--#region Undefined Natives
+local function NativeHasPedComponentLoaded(ped)
+    return Citizen.InvokeNative(0xA0BC8FAED8CFEB3C, ped)
+end
+
+local function NativeUpdatePedVariation(ped)
+    Citizen.InvokeNative(0x704C908E9C405136, ped)
+    Citizen.InvokeNative(0xCC8CA3E88256E58F, ped, false, true, true, true, false)
+    while not NativeHasPedComponentLoaded(ped) do
+        Wait(1)
     end
-    Wait(1)
-    Camera.DestroyCamera()
-    Peds.DestroyPeds()
-end)
+end
+
+local function NativeSetPedComponentEnabled(ped, componentHash, immediately, isMp)
+    Citizen.InvokeNative(0xD3A7B003ED343FD9, ped, componentHash, true, false, true)
+    Citizen.InvokeNative(0xD3A7B003ED343FD9, ped, componentHash, true, true, true)
+    NativeUpdatePedVariation(ped)
+end
+--#endregion
 
 -- Begin the process of loading characters after loading screen is done
 CreateThread(function()
@@ -24,6 +35,33 @@ CreateThread(function()
         end
     end
 end)
+
+if GlobalState.RPXConfig.Player.CanLogout then
+    RegisterCommand("logout", function()
+        local plyState = LocalPlayer.state
+        if plyState.PlayerSpawned and plyState.isLoggedIn then
+            Camera.Cam = nil
+            Camera.SelectedChar = 1
+            Camera.PointingAtChar = 0
+            DoScreenFadeOut(500)
+            Wait(500)
+            TriggerServerEvent("SERVER:RPX:Logout")
+            TriggerEvent("CLIENT:RPX:Logout")
+            RPX.RequestRoutingBucket(math.random(20000) + 10000)
+            TriggerServerEvent("SERVER:RPX:LoadCharacters")
+            return
+        end
+    end)
+end
+
+AddEventHandler('onResourceStop', function(resName)
+    if resName ~= GetCurrentResourceName() then return end
+
+    Camera.DestroyCamera()
+    Peds.DestroyPeds()
+end)
+
+--#region Functions
 
 CharacterSelected = function()
     if CharacterData[Camera.SelectedChar] then
@@ -53,6 +91,10 @@ DeleteCharacter = function()
     end
 end
 
+--#endregion
+
+--#region NUI Callbacks
+
 RegisterNUICallback("CloseConfirm", function(response)
     SetNuiFocus(false, false)
     if not response then
@@ -65,19 +107,6 @@ RegisterNUICallback("CloseConfirm", function(response)
     else
         Camera.StartCameraThread()
     end
-end)
-
-RegisterNetEvent("CLIENT:MultiCharacter:CharacterDeleted", function()
-    DoScreenFadeOut(500)
-    Wait(500)
-    Camera.DestroyCamera()
-    Peds.DestroyPeds()
-    Camera.CamActive = false
-    Camera.Cam = nil
-    Camera.SelectedChar = 1
-    Camera.PointingAtChar = 0
-    RPX.RequestRoutingBucket(math.random(20000) + 10000)
-    TriggerServerEvent("SERVER:RPX:LoadCharacters")
 end)
 
 RegisterNUICallback("CloseNUI", function(response)
@@ -109,19 +138,21 @@ RegisterNUICallback("CloseNUI", function(response)
     end
 end)
 
-RegisterCommand("logout", function()
-    if LocalPlayer.state.PlayerSpawned and LocalPlayer.state.isLoggedIn then
-        Camera.Cam = nil
-        Camera.SelectedChar = 1
-        Camera.PointingAtChar = 0
-        DoScreenFadeOut(500)
-        Wait(500)
-        TriggerServerEvent("SERVER:RPX:Logout")
-        TriggerEvent("CLIENT:RPX:Logout")
-        RPX.RequestRoutingBucket(math.random(20000) + 10000)
-        TriggerServerEvent("SERVER:RPX:LoadCharacters")
-        return
-    end
+--#endregion
+
+--#region Net Events
+
+RegisterNetEvent("CLIENT:MultiCharacter:CharacterDeleted", function()
+    DoScreenFadeOut(500)
+    Wait(500)
+    Camera.DestroyCamera()
+    Peds.DestroyPeds()
+    Camera.CamActive = false
+    Camera.Cam = nil
+    Camera.SelectedChar = 1
+    Camera.PointingAtChar = 0
+    RPX.RequestRoutingBucket(math.random(20000) + 10000)
+    TriggerServerEvent("SERVER:RPX:LoadCharacters")
 end)
 
 RegisterNetEvent("CLIENT:MultiCharacter:LoadCharacters", function(chardata)
@@ -203,20 +234,4 @@ RegisterNetEvent("CLIENT:MultiCharacter:CharacterSelected", function(playerdata,
     end
 end)
 
-function NativeSetPedComponentEnabled(ped, componentHash, immediately, isMp)
-    Citizen.InvokeNative(0xD3A7B003ED343FD9, ped, componentHash, true, false, true)
-    Citizen.InvokeNative(0xD3A7B003ED343FD9, ped, componentHash, true, true, true)
-    NativeUpdatePedVariation(ped)
-end
-
-function NativeHasPedComponentLoaded(ped)
-    return Citizen.InvokeNative(0xA0BC8FAED8CFEB3C, ped)
-end
-
-function NativeUpdatePedVariation(ped)
-    Citizen.InvokeNative(0x704C908E9C405136, ped)
-    Citizen.InvokeNative(0xCC8CA3E88256E58F, ped, false, true, true, true, false)
-    while not NativeHasPedComponentLoaded(ped) do
-        Wait(1)
-    end
-end
+--#endregion

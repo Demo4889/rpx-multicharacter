@@ -1,3 +1,8 @@
+---@class Peds
+---@field PedList table
+---@field SpawnPed function
+---@field DestroyPeds function
+
 Peds = {}
 Peds.PedList = {}
 

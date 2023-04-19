@@ -1,12 +1,17 @@
+---@class Camera
+---@field Cam table
+---@field SelectedChar number
+---@field PointingAtChar number
+---@field CamActive boolean
+---@field SetUpCamera function
+---@field DestroyCamera function
+---@field StartCameraThread function
+
 Camera = {}
 Camera.Cam = nil
 Camera.SelectedChar = 1
 Camera.PointingAtChar = 0
 Camera.CamActive = false
-
-local Speed = Config.Speed
-local AdjustSpeed = Config.AdjustSpeed
-local RotateSpeed = Config.RotateSpeed
 
 Camera.SetUpCamera = function()
     Camera.Cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
