@@ -2,6 +2,8 @@ RPX = exports['rpx-core']:GetObject()
 
 CharacterData = {}
 
+CurrentScene = 1
+
 --#region Undefined Natives
 local function NativeHasPedComponentLoaded(ped)
     return Citizen.InvokeNative(0xA0BC8FAED8CFEB3C, ped)
@@ -31,6 +33,7 @@ CreateThread(function()
             Wait(500)
             RPX.RequestRoutingBucket(math.random(20000) + 10000)
             TriggerServerEvent("SERVER:RPX:LoadCharacters")
+            CurrentScene = math.random(3, 3)
             return
         end
     end
@@ -145,6 +148,7 @@ end)
 RegisterNetEvent("CLIENT:MultiCharacter:CharacterDeleted", function()
     DoScreenFadeOut(500)
     Wait(500)
+    ClearFocus()
     Camera.DestroyCamera()
     Peds.DestroyPeds()
     Camera.CamActive = false
@@ -158,7 +162,7 @@ end)
 RegisterNetEvent("CLIENT:MultiCharacter:LoadCharacters", function(chardata)
     CharacterData = {}
 
-    for position,data in ipairs(chardata) do
+    for _,data in ipairs(chardata) do
         if not CharacterData[data.slot] then
             CharacterData[data.slot] = {}
         end
@@ -171,7 +175,7 @@ RegisterNetEvent("CLIENT:MultiCharacter:LoadCharacters", function(chardata)
 
     local PositionsTaken = 0
 
-    SetEntityCoords(PlayerPedId(), Config.HidePed.x, Config.HidePed.y, Config.HidePed.z)
+    SetEntityCoords(PlayerPedId(), Config.HidePed[CurrentScene].x, Config.HidePed[CurrentScene].y, Config.HidePed[CurrentScene].z)
     FreezeEntityPosition(PlayerPedId(), true)
     SetEntityAlpha(PlayerPedId(), 0.0, true)
     Citizen.InvokeNative(0x4D51E59243281D80, PlayerId(), false, 0, false)
@@ -216,6 +220,8 @@ end)
 RegisterNetEvent("CLIENT:MultiCharacter:CharacterSelected", function(playerdata, newplayer)
     exports['rpx-appearance']:RequestAndSetModel(playerdata.charinfo.gender and "mp_male" or "mp_female")
     Wait(10)
+
+    ClearFocus()
 
     exports['rpx-appearance']:loadSkin(PlayerPedId(), playerdata.skin)
     exports['rpx-appearance']:loadClothes(PlayerPedId(), playerdata.clothes, false)

@@ -14,11 +14,12 @@ Camera.PointingAtChar = 0
 Camera.CamActive = false
 
 Camera.SetUpCamera = function()
+    
     Camera.Cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-    SetCamCoord(Camera.Cam, Config.CamCoords[1].x, Config.CamCoords[1].y, Config.CamCoords[1].z)
-    SetCamRot(Camera.Cam, 0.0, 0.0, Config.CamCoords[1].w)
+    local camCoords = Config.CamCoords[CurrentScene][1]
+    SetCamCoord(Camera.Cam, camCoords.x, camCoords.y, camCoords.z)
+    SetCamRot(Camera.Cam, 0.0, 0.0, camCoords.w)
 
-    --PointCamAtEntity(Camera.Cam, Peds.PedList[1])
     SetCamActive(Camera.Cam, true)
     RenderScriptCams(true, false, 1, true, true)
 end
@@ -45,14 +46,15 @@ Camera.StartCameraThread = function()
                     end
                 end
 
-                SetCamParams(Camera.Cam, Config.CamCoords[Camera.SelectedChar].x, Config.CamCoords[Camera.SelectedChar].y, Config.CamCoords[Camera.SelectedChar].z, 0.0, 0.0, Config.CamCoords[Camera.SelectedChar].w, GetGameplayCamFov(), 500, 1.0, 2, 1)
+                local camCoords = Config.CamCoords[CurrentScene][Camera.SelectedChar]
+                SetCamParams(Camera.Cam, camCoords.x, camCoords.y, camCoords.z, 0.0, 0.0, camCoords.w, GetGameplayCamFov(), 500, 1.0, 2, 1)
                 Wait(500)
-                --PointCamAtEntity(Camera.Cam, Peds.PedList[Camera.SelectedChar], 0.0, 0.0, 0.0, true)
             end
 
             -- Set the alpha of the entity the camera is pointing at
             if GetEntityAlpha(Peds.PedList[Camera.PointingAtChar]) ~= 255 then
                 SetEntityAlpha(Peds.PedList[Camera.PointingAtChar], 255, false)
+                SetFocusEntity(Peds.PedList[Camera.PointingAtChar])
             end
 
             -- Make sure all other peds are not transparent
@@ -63,8 +65,6 @@ Camera.StartCameraThread = function()
                     end
                 end
             end
-
-
 
             DisableControlAction(0, 0xA65EBAB4, true) -- LEFT ARROW
             DisableControlAction(0, 0xDEB34313, true) -- RIGHT ARROW

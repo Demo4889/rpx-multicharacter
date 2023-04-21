@@ -7,7 +7,7 @@ Peds = {}
 Peds.PedList = {}
 
 Peds.SpawnPed = function(position)
-    local coords = Config.CharLocations[position]
+    local coords = Config.CharLocations[CurrentScene][position]
     RequestModel(GetHashKey("mp_male"))
     while not HasModelLoaded(GetHashKey("mp_male")) do
         Wait(1)    
