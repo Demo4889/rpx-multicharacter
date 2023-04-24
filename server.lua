@@ -1,5 +1,3 @@
-RPX = exports['rpx-core']:GetObject()
-
 RegisterNetEvent("SERVER:RPX:LoadCharacters", function()
     local src = source
     local characters = RPX.Player.GetCharacters(src)

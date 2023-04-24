@@ -1,5 +1,3 @@
-RPX = exports['rpx-core']:GetObject()
-
 CharacterData = {}
 
 CurrentScene = 1

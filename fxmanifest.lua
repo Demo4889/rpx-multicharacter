@@ -6,19 +6,8 @@ description 'RPX Multicharacter'
 author 'Sinatra#0101'
 version '0.0.1'
 
-shared_scripts {
-    'shared/config.lua',
-}
-
-server_scripts {
-    'server/main.lua',
-}
-
-client_scripts {
-    'client/camera.lua',
-    'client/peds.lua',
-    'client/main.lua',
-}
+shared_script '@ox_lib/init.lua'
+shared_script 'init.lua'
 
 ui_page {
     'ui/index.html'
@@ -31,7 +20,10 @@ files {
     'ui/*',
     'ui/fonts/*',
     'ui/img/*',
-    -- Todo: Add more files here
+
+    'modules/**/client.lua',
+    'shared/config.lua',
+    'client.lua',
 }
 
 lua54 'yes'
