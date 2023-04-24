@@ -31,7 +31,7 @@ CreateThread(function()
             Wait(500)
             RPX.RequestRoutingBucket(math.random(20000) + 10000)
             TriggerServerEvent("SERVER:RPX:LoadCharacters")
-            CurrentScene = math.random(3, 3)
+            CurrentScene = math.random(1, 3)
             return
         end
     end
