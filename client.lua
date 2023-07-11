@@ -139,6 +139,23 @@ RegisterNUICallback("CloseNUI", function(response)
     end
 end)
 
+RegisterNUICallback("ChangeGender", function(response)
+    Peds.DestroyPed(Camera.SelectedChar)
+    local ped = Peds.SpawnPed(Camera.SelectedChar, response.gender)
+    local Components = exports['rpx-appearance']:getSkinData()
+    Citizen.InvokeNative(0x283978A15512B2FE, ped, true)
+    Citizen.InvokeNative(0x77FF8D35EEC6BBC4, ped, 3, 0)
+    NativeUpdatePedVariation(ped)
+    if response.gender == 1 then
+        NativeSetPedComponentEnabled(ped, Components.Male["BODIES_LOWER"][10], false, true)
+        NativeSetPedComponentEnabled(ped, Components.Male["BODIES_UPPER"][10], false, true)
+    else
+        NativeSetPedComponentEnabled(ped, Components.Female["BODIES_LOWER"][10], false, true)
+        NativeSetPedComponentEnabled(ped, Components.Female["BODIES_UPPER"][10], false, true)
+    end
+    NativeUpdatePedVariation(ped)
+end)
+
 --#endregion
 
 --#region Net Events
@@ -180,7 +197,7 @@ RegisterNetEvent("CLIENT:MultiCharacter:LoadCharacters", function(chardata)
 
     for i = 1, 4 do
         if CharacterData[i] then
-            local ped = Peds.SpawnPed(tonumber(CharacterData[i].slot))
+            local ped = Peds.SpawnPed(tonumber(CharacterData[i].slot), tonumber(CharacterData[i].charinfo.gender))
             exports['rpx-appearance']:loadSkin(ped, CharacterData[i].skin)
             exports['rpx-appearance']:loadClothes(ped, CharacterData[i].clothes)
             PositionsTaken = PositionsTaken + 1
@@ -216,7 +233,7 @@ RegisterNetEvent("CLIENT:MultiCharacter:LoadCharacters", function(chardata)
 end)
 
 RegisterNetEvent("CLIENT:MultiCharacter:CharacterSelected", function(playerdata, newplayer)
-    exports['rpx-appearance']:RequestAndSetModel(playerdata.charinfo.gender and "mp_male" or "mp_female")
+    exports['rpx-appearance']:RequestAndSetModel(playerdata.charinfo.gender == 1 and "mp_male" or "mp_female")
     Wait(10)
 
     ClearFocus()
