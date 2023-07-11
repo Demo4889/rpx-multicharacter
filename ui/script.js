@@ -33,11 +33,23 @@ $("#button").click(function() {
     const Name = /^[A-Z][a-z]+/;
     var Age = parseInt($("#age").val());
     var Height = parseInt($("#height").val());
+    var gender = $("input[name='radio']:checked").attr("id");
+    switch(gender) {
+        case "male":
+            gender = "1"
+            break;
+        case "female":
+            gender = "0"
+            break;
+    }
+
+
 
     if(!Name.test($("#firstname").val())) return Toast("Invalid First Name<br/>Name must have a capital character at the beginning, and be a realistic roleplay name.", 2500);
     if(!Name.test($("#lastname").val())) return Toast("Invalid Last Name<br/>Name must have a capital character at the beginning, and be a realistic roleplay name.", 2500);
     if(Age < 18 || Age > 80) return Toast("Invalid Age<br/>A valid age is between 18 and 80.", 2500);
     if(Height < 150 || Height > 190) return Toast("Invalid Height<br/>A valid height is between 150 and 190", 2500);
+
 
     if($("#firstname").val() != "" && $("#lastname").val() != "" && $("#age").val() != "" && $("#height").val() != "") {
         $("#multicharmenu").hide();
@@ -45,10 +57,23 @@ $("#button").click(function() {
             firstname:$("#firstname").val(),
             lastname:$("#lastname").val(),
             age:$("#age").val(),
-            gender:$("#gender").val(),
+            gender:gender,
             height:$("#height").val()
         }));
     }
+});
+
+$(".radioinput").click(function() {
+    let gender = $("input[name='radio']:checked").attr("id");
+    switch(gender) {
+        case "male":
+            gender = "1"
+            break;
+        case "female":
+            gender = "0"
+            break;
+    }
+    $.post(`https://${GetParentResourceName()}/ChangeGender`, JSON.stringify({gender: gender}));
 });
 
 $("#button2").click(function() {
