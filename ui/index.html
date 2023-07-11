@@ -14,14 +14,16 @@
             <div class="topline"></div>
             <div class="content">
                 <span class="label">Basic Info</span><br/>
-                <input type="text" id="firstname" placeholder="First Name">
-                <input type="text" id="lastname" placeholder="Last Name">
-                <input type="number" id="age" placeholder="Age (18-80)">
-                <select name="gender" id="gender">
-                    <option value="1">Male</option>
-                    <option value="0">Female</option>
-                </select>
-                <input type="number" id="height" placeholder="Height (150-190) cm">
+                   
+                <input class="radioinput" type='radio' id='male' checked='checked' name='radio'>
+                <label for='male'>Male</label>
+                <input class="radioinput" type='radio' id='female' name='radio'>
+                <label for='female'>Female</label>
+                
+                <input class="inputBox" type="text" id="firstname" placeholder="First Name">
+                <input class="inputBox" type="text" id="lastname" placeholder="Last Name">
+                <input class="inputBox" type="number" id="age" placeholder="Age (18-80)">
+                <input class="inputBox" type="number" id="height" placeholder="Height (150-190) cm">
                 <button id="button" class="create">Create Character</button>
             </div>
         </div>
