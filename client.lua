@@ -240,8 +240,8 @@ RegisterNetEvent("CLIENT:MultiCharacter:CharacterSelected", function(playerdata,
 
     exports['rpx-appearance']:loadSkin(PlayerPedId(), playerdata.skin)
     exports['rpx-appearance']:loadClothes(PlayerPedId(), playerdata.clothes, false)
+    RPX.RequestRoutingBucket(0)
     if not newplayer then
-        RPX.RequestRoutingBucket(0)
         local position = playerdata.position
         local SpawnPosition = vector3(position.x, position.y, position.z)
         SetEntityCoords(PlayerPedId(), SpawnPosition.x, SpawnPosition.y, SpawnPosition.z - 1.0)
