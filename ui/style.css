@@ -84,6 +84,7 @@ body {
   font-weight: 300;
   width: 100%;
   color: #fff;
+  margin-left: 38%;
 }
 
 .menu .head {
@@ -102,7 +103,7 @@ body {
 }
 
 .content {
-  padding: 20px;
+  padding: 10px;
   width: 380px;
 }
 
@@ -110,24 +111,7 @@ body {
   display: block;
   box-sizing: content-box;
   margin-top: 10px;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  height: 40px;
-  font-family: "crock", crock, serif;
-  background-color: #222;
-  outline: 2px solid #888;
-  border: none;
-  color: #eee;
-  font-size: 16pt;
-}
-
-.genderBox {
-  display: block;
-  box-sizing: content-box;
-  margin-top: 10px;
-  width: 40%;
+  width: 75%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -150,7 +134,7 @@ body {
   text-align: center;
   font-size: 16pt;
   z-index: 10;
-  width: 38.6%;
+  width: 35%;
   height:40px;
   position: relative;
   color: #888;

@@ -45,10 +45,10 @@ $("#button").click(function() {
 
 
 
-    if(!Name.test($("#firstname").val())) return Toast("Invalid First Name<br/>Name must have a capital character at the beginning, and be a realistic roleplay name.", 2500);
-    if(!Name.test($("#lastname").val())) return Toast("Invalid Last Name<br/>Name must have a capital character at the beginning, and be a realistic roleplay name.", 2500);
+    if(!Name.test($("#firstname").val())) return Toast("Invalid First Name<br/>Name must have a capital letter at the beginning, and be a realistic roleplay name.", 2500);
+    if(!Name.test($("#lastname").val())) return Toast("Invalid Last Name<br/>Name must have a capital letter at the beginning, and be a realistic roleplay name.", 2500);
     if(Age < 18 || Age > 80) return Toast("Invalid Age<br/>A valid age is between 18 and 80.", 2500);
-    if(Height < 150 || Height > 190) return Toast("Invalid Height<br/>A valid height is between 150 and 190", 2500);
+    if(Height < 48 || Height > 84) return Toast("Invalid Height<br/>A valid height is between 48 and 84 inches", 2500);
 
 
     if($("#firstname").val() != "" && $("#lastname").val() != "" && $("#age").val() != "" && $("#height").val() != "") {
@@ -109,7 +109,6 @@ $("#lastname").keypress(function (e) {
     e.preventDefault();
     return false;
 });
-
 
 Toast = function(text, time) {
     if(!ShowingToast) {
